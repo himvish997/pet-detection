@@ -18,12 +18,12 @@ Contents:
 --------
 ### Annotations: 
 <pre>
-`trimaps/` 	Trimap annotations for every image in the dataset
+trimaps/ 	Trimap annotations for every image in the dataset
 		Pixel Annotations: 1: Foreground 2:Background 3: Not classified
 		
-`xmls/`		Head bounding box annotations in PASCAL VOC Format
+xmls/		Head bounding box annotations in PASCAL VOC Format
 
-`list.txt`	Combined list of all images in the dataset.
+list.txt	Combined list of all images in the dataset.
 		&nbsp;Each entry in the file is of following nature:<br/>
 		Image CLASS-ID SPECIES BREED ID<br/>
 		ID: 1:37 Class ids<br/>
@@ -32,9 +32,9 @@ Contents:
 		All images with 1st letter as captial are cat images while
 		images with small first letter are dog images.
 		
-`trainval.txt`	Files describing splits used in the paper.However,
+trainval.txt	Files describing splits used in the paper.However,
 
-`test.txt`	you are encouraged to try random splits.
+test.txt	you are encouraged to try random splits.
 </pre>
 
 ### images
