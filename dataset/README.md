@@ -44,6 +44,11 @@ All images with 1st letter as captial are cat images while
 images with small first letter are dog images. 
 </pre>
 
+### Dataset Statistics
+<pre>
+![Alt text](./breed_count.jpg?raw=true "Title")
+</pre>
+
 
 Support:
 -------
