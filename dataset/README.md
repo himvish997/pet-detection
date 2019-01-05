@@ -45,9 +45,9 @@ images with small first letter are dog images.
 </pre>
 
 ### Dataset Statistics
-<pre>
+
 ![Alt text](./breed_count.jpg?raw=true "Title")
-</pre>
+
 
 
 Support:
