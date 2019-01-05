@@ -37,17 +37,20 @@ trainval.txt	Files describing splits used in the paper.However,
 test.txt	you are encouraged to try random splits.
 </pre>
 
-### images
+![Alt_text](./Annotation%20Example.png?raw=true "Title")
+
+![Alt text](./Class_Examples.jpg?raw=true "Title")
+
+#### Dataset Statistics
+
+![Alt text](./breed_count.jpg?raw=true "Title")
+
+### Images
 <pre>
 This folder contains the all images of cat and dogs.
 All images with 1st letter as captial are cat images while
 images with small first letter are dog images. 
 </pre>
-
-### Dataset Statistics
-
-![Alt text](./breed_count.jpg?raw=true "Title")
-
 
 
 Support:
