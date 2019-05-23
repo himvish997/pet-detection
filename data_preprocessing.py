@@ -26,6 +26,7 @@ import os
 import xml.etree.ElementTree as ET
 from tqdm import tqdm
 import parameters_variables as petNet
+from random import shuffle
 
 
 
@@ -41,6 +42,7 @@ def read_image(fileName = "./dataset/images/Abyssinian_100.jpg", show_image = Tr
     # print(fileName)
     img = cv2.imread(fileName)
     img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
+    img = img / 255
     if show_image == True:
         cv2.imshow("Images", img)
         cv2.waitKey(0)
@@ -94,7 +96,38 @@ def center_box(xn, xx, yn, yx):
     return np.array([x, y, w, h], dtype=np.float32) / IMG_SIZE
 
 
-def main():
+def img_label_genrator():
+    count = 0
+    annotation_files = os.listdir(annotations_path)
+    shuffle(annotation_files)
+    # shuffle(annotation_files)
+    for annotation_file in annotation_files: # tqdm(annotation_files):
+        count += 1
+        annotation_fileName = os.path.join(annotations_path, annotation_file)
+        if os.path.isfile(annotation_fileName):
+            annotation = read_xml(annotation_fileName)
+            image_fileName = annotation[0]
+            cls, xn, xx, yn, yx = annotation[3][0]
+            classes = one_hot_class(cls)
+            box = center_box(xn, xx, yn, yx)
+            label = np.concatenate((box, classes), axis=None)
+        else:
+            continue
+
+        if os.path.isfile(image_fileName):
+            img = read_image(image_fileName, show_image=False)
+        else:
+            continue
+
+        image_raw = img
+        label_raw = label
+        data = {'image' : image_raw, 'label' : label_raw}
+
+        yield data
+
+
+
+def create_tf_record():
     count = 0
     annotation_files = os.listdir(annotations_path)
     with tf.python_io.TFRecordWriter(tfrecord_path) as writer:
@@ -128,6 +161,32 @@ def main():
             if count % 100 == 0:
                 print("No of Iteration : ", count)
 
+
+def build_iterator():
+    batch_size = petNet.batch_size
+    prefetch_batch_buffer = petNet.prefetch_batch_buffer
+
+    dataset = tf.data.Dataset.from_generator(img_label_genrator,
+                                             output_types={'image': tf.float32,
+                                                            'label': tf.float32})
+    dataset = dataset.batch(batch_size)
+    dataset = dataset.prefetch(prefetch_batch_buffer)
+    iter = dataset.make_one_shot_iterator()
+    element = iter.get_next()
+
+    return element['image'], element['label']
+
+
+def main():
+    print("mainfn")
+    image, label = build_iterator()
+    with tf.Session() as sess:
+        try:
+            while True:
+                img, lablel = sess.run([image, label])
+                print(lablel.shape)
+        except tf.errors.OutOfRangeError:
+            pass
 
 
 if __name__ == '__main__':
