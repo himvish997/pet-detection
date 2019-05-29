@@ -176,19 +176,3 @@ def build_iterator():
 
     return element['image'], element['label']
 
-
-def main():
-    print("mainfn")
-    image, label = build_iterator()
-    with tf.Session() as sess:
-        try:
-            while True:
-                img, lablel = sess.run([image, label])
-                print(lablel.shape)
-        except tf.errors.OutOfRangeError:
-            pass
-
-
-if __name__ == '__main__':
-    main()
-
